@@ -1,15 +1,23 @@
-# Qwen Code
+# Tinfoil Code: Qwen Edition
 
 <div align="center">
 
-![Qwen Code Screenshot](./docs/assets/qwen-screenshot.png)
+```
+████████╗██╗███╗   ██╗███████╗ ██████╗ ██╗██╗          ██████╗ ██████╗ ██████╗ ███████╗
+╚══██╔══╝██║████╗  ██║██╔════╝██╔═══██╗██║██║         ██╔════╝██╔═══██╗██╔══██╗██╔════╝
+   ██║   ██║██╔██╗ ██║█████╗  ██║   ██║██║██║         ██║     ██║   ██║██║  ██║█████╗  
+   ██║   ██║██║╚██╗██║██╔══╝  ██║   ██║██║██║         ██║     ██║   ██║██║  ██║██╔══╝  
+   ██║   ██║██║ ╚████║██║     ╚██████╔╝██║███████╗    ╚██████╗╚██████╔╝██████╔╝███████╗
+   ╚═╝   ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
+                                                                             
+```
 
-[![npm version](https://img.shields.io/npm/v/@qwen-code/qwen-code.svg)](https://www.npmjs.com/package/@qwen-code/qwen-code)
-[![License](https://img.shields.io/github/license/QwenLM/qwen-code.svg)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@tinfoil-code/qwen-code.svg)](https://www.npmjs.com/package/@tinfoil-code/qwen-code)
+[![License](https://img.shields.io/github/license/tinfoilsh/qwen-code.svg)](./LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
-[![Downloads](https://img.shields.io/npm/dm/@qwen-code/qwen-code.svg)](https://www.npmjs.com/package/@qwen-code/qwen-code)
+[![Downloads](https://img.shields.io/npm/dm/@tinfoil-code/qwen-code.svg)](https://www.npmjs.com/package/@tinfoil-code/qwen-code)
 
-**AI-powered command-line workflow tool for developers**
+**Verifiably Private** AI-powered command-line coding tool
 
 [Installation](#installation) • [Quick Start](#quick-start) • [Features](#key-features) • [Documentation](./docs/) • [Contributing](./CONTRIBUTING.md)
 
@@ -18,46 +26,36 @@
 <div align="center">
   
   <!-- Keep these links. Translations will automatically update with the README. -->
-  <a href="https://readme-i18n.com/de/QwenLM/qwen-code">Deutsch</a> | 
-  <a href="https://readme-i18n.com/es/QwenLM/qwen-code">Español</a> | 
-  <a href="https://readme-i18n.com/fr/QwenLM/qwen-code">français</a> | 
-  <a href="https://readme-i18n.com/ja/QwenLM/qwen-code">日本語</a> | 
-  <a href="https://readme-i18n.com/ko/QwenLM/qwen-code">한국어</a> | 
-  <a href="https://readme-i18n.com/pt/QwenLM/qwen-code">Português</a> | 
-  <a href="https://readme-i18n.com/ru/QwenLM/qwen-code">Русский</a> | 
-  <a href="https://readme-i18n.com/zh/QwenLM/qwen-code">中文</a>
+  <a href="https://readme-i18n.com/de/tinfoilsh/qwen-code">Deutsch</a> | 
+  <a href="https://readme-i18n.com/es/tinfoilsh/qwen-code">Español</a> | 
+  <a href="https://readme-i18n.com/fr/tinfoilsh/qwen-code">français</a> | 
+  <a href="https://readme-i18n.com/ja/tinfoilsh/qwen-code">日本語</a> | 
+  <a href="https://readme-i18n.com/ko/tinfoilsh/qwen-code">한국어</a> | 
+  <a href="https://readme-i18n.com/pt/tinfoilsh/qwen-code">Português</a> | 
+  <a href="https://readme-i18n.com/ru/tinfoilsh/qwen-code">Русский</a> | 
+  <a href="https://readme-i18n.com/zh/tinfoilsh/qwen-code">中文</a>
   
 </div>
 
-Qwen Code is a powerful command-line AI workflow tool adapted from [**Gemini CLI**](https://github.com/google-gemini/gemini-cli) ([details](./README.gemini.md)), specifically optimized for [Qwen3-Coder](https://github.com/QwenLM/Qwen3-Coder) models. It enhances your development workflow with advanced code understanding, automated tasks, and intelligent assistance.
+Tinfoil Code is a private alternative to the Qwen Code command-line AI coding tool. 
 
-## 💡 Free Options Available
+Tinfoil Code is forked from [**Qwen Code**](https://github.com/QwenLM/qwen-code), which was in turn adapted from [**Gemini CLI**](https://github.com/google-gemini/gemini-cli). 
 
-Get started with Qwen Code at no cost using any of these free options:
+With Tinfoil Code, all AI inference to the Qwen3 Coder model is performed using [Tinfoil](https://tinfoil.sh)'s private AI infrastructure, which provides verifiably private AI inference using secure hardware enclaves. 
 
-### 🔥 Qwen OAuth (Recommended)
+**When you use Tinfoil Code, your data remains private and inaccessible to third parties, including Tinfoil and Qwen**
 
-- **2,000 requests per day** with no token limits
-- **60 requests per minute** rate limit
-- Simply run `qwen` and authenticate with your qwen.ai account
-- Automatic credential management and refresh
-- Use `/auth` command to switch to Qwen OAuth if you have initialized with OpenAI compatible mode
 
-### 🌏 Regional Free Tiers
+## 💡 Getting Started
 
-- **Mainland China**: ModelScope offers **2,000 free API calls per day**
-- **International**: OpenRouter provides **up to 1,000 free API calls per day** worldwide
+Tinfoil Code requires an API key for operation. You'll be prompted to enter your API key on first run. You can get a Tinfoil API key by visiting [https://tinfoil.sh](https://tinfoil.sh).
 
-For detailed setup instructions, see [Authorization](#authorization).
-
-> [!WARNING]
-> **Token Usage Notice**: Qwen Code may issue multiple API calls per cycle, resulting in higher token usage (similar to Claude Code). We're actively optimizing API efficiency.
 
 ## Key Features
-
+- **Privacy** - Your queries and code are never exposed to third parties and only processed within isolated secure hardware enclaves. [Learn more about Tinfoil](https://tinfoil.sh/technology). 
 - **Code Understanding & Editing** - Query and edit large codebases beyond traditional context window limits
 - **Workflow Automation** - Automate operational tasks like handling pull requests and complex rebases
-- **Enhanced Parser** - Adapted parser specifically optimized for Qwen-Coder models
+- **Enhanced Parser** - Adapted parser optimized for AI models
 
 ## Installation
 
@@ -72,14 +70,14 @@ curl -qL https://www.npmjs.com/install.sh | sh
 ### Install from npm
 
 ```bash
-npm install -g @qwen-code/qwen-code@latest
-qwen --version
+npm install -g @tinfoil-code/qwen-code@latest
+tinfoil-qwen --version
 ```
 
 ### Install from source
 
 ```bash
-git clone https://github.com/QwenLM/qwen-code.git
+git clone https://github.com/tinfoilsh/qwen-code.git
 cd qwen-code
 npm install
 npm install -g .
@@ -88,8 +86,8 @@ npm install -g .
 ## Quick Start
 
 ```bash
-# Start Qwen Code
-qwen
+# Start Tinfoil Code
+tinfoil-qwen
 
 # Example commands
 > Explain this codebase structure
@@ -103,7 +101,7 @@ Control your token usage with configurable session limits to optimize costs and 
 
 #### Configure Session Token Limit
 
-Create or edit `.qwen/settings.json` in your home directory:
+Create or edit `.tinfoil/settings.json` in your home directory:
 
 ```json
 {
@@ -121,105 +119,20 @@ Create or edit `.qwen/settings.json` in your home directory:
 
 ### Authorization
 
-Choose your preferred authentication method based on your needs:
-
-#### 1. Qwen OAuth (🚀 Recommended - Start in 30 seconds)
-
-The easiest way to get started - completely free with generous quotas:
-
-```bash
-# Just run this command and follow the browser authentication
-qwen
-```
-
-**What happens:**
-
-1. **Instant Setup**: CLI opens your browser automatically
-2. **One-Click Login**: Authenticate with your qwen.ai account
-3. **Automatic Management**: Credentials cached locally for future use
-4. **No Configuration**: Zero setup required - just start coding!
-
-**Free Tier Benefits:**
-
-- ✅ **2,000 requests/day** (no token counting needed)
-- ✅ **60 requests/minute** rate limit
-- ✅ **Automatic credential refresh**
-- ✅ **Zero cost** for individual users
-- ℹ️ **Note**: Model fallback may occur to maintain service quality
-
-#### 2. OpenAI-Compatible API
-
-Use API keys for OpenAI or other compatible providers:
+Tinfoil Code requires an API key to function. When you first run `tinfoil-qwen`, you'll be prompted to enter your API key, which will be securely stored for future use.
 
 **Configuration Methods:**
 
 1. **Environment Variables**
-
    ```bash
-   export OPENAI_API_KEY="your_api_key_here"
-   export OPENAI_BASE_URL="your_api_endpoint"
-   export OPENAI_MODEL="your_model_choice"
+   export TINFOIL_API_KEY="your_api_key_here"
    ```
 
 2. **Project `.env` File**
    Create a `.env` file in your project root:
    ```env
-   OPENAI_API_KEY=your_api_key_here
-   OPENAI_BASE_URL=your_api_endpoint
-   OPENAI_MODEL=your_model_choice
+   TINFOIL_API_KEY=your_api_key_here
    ```
-
-**API Provider Options**
-
-> ⚠️ **Regional Notice:**
->
-> - **Mainland China**: Use Alibaba Cloud Bailian or ModelScope
-> - **International**: Use Alibaba Cloud ModelStudio or OpenRouter
-
-<details>
-<summary><b>🇨🇳 For Users in Mainland China</b></summary>
-
-**Option 1: Alibaba Cloud Bailian** ([Apply for API Key](https://bailian.console.aliyun.com/))
-
-```bash
-export OPENAI_API_KEY="your_api_key_here"
-export OPENAI_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
-export OPENAI_MODEL="qwen3-coder-plus"
-```
-
-**Option 2: ModelScope (Free Tier)** ([Apply for API Key](https://modelscope.cn/docs/model-service/API-Inference/intro))
-
-- ✅ **2,000 free API calls per day**
-- ⚠️ Connect your Aliyun account to avoid authentication errors
-
-```bash
-export OPENAI_API_KEY="your_api_key_here"
-export OPENAI_BASE_URL="https://api-inference.modelscope.cn/v1"
-export OPENAI_MODEL="Qwen/Qwen3-Coder-480B-A35B-Instruct"
-```
-
-</details>
-
-<details>
-<summary><b>🌍 For International Users</b></summary>
-
-**Option 1: Alibaba Cloud ModelStudio** ([Apply for API Key](https://modelstudio.console.alibabacloud.com/))
-
-```bash
-export OPENAI_API_KEY="your_api_key_here"
-export OPENAI_BASE_URL="https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
-export OPENAI_MODEL="qwen3-coder-plus"
-```
-
-**Option 2: OpenRouter (Free Tier Available)** ([Apply for API Key](https://openrouter.ai/))
-
-```bash
-export OPENAI_API_KEY="your_api_key_here"
-export OPENAI_BASE_URL="https://openrouter.ai/api/v1"
-export OPENAI_MODEL="qwen/qwen3-coder:free"
-```
-
-</details>
 
 ## Usage Examples
 
@@ -227,7 +140,7 @@ export OPENAI_MODEL="qwen/qwen3-coder:free"
 
 ```bash
 cd your-project/
-qwen
+tinfoil-qwen
 
 # Architecture analysis
 > Describe the main pieces of this system's architecture
@@ -325,7 +238,7 @@ qwen
 - `/clear` - Clear conversation history
 - `/compress` - Compress history to save tokens
 - `/stats` - Show current session information
-- `/exit` or `/quit` - Exit Qwen Code
+- `/exit` or `/quit` - Exit Tinfoil Code
 
 ### Keyboard Shortcuts
 
@@ -335,31 +248,16 @@ qwen
 
 ## Benchmark Results
 
-### Terminal-Bench Performance
+### Performance
 
-| Agent     | Model              | Accuracy |
-| --------- | ------------------ | -------- |
-| Qwen Code | Qwen3-Coder-480A35 | 37.5%    |
-| Qwen Code | Qwen3-Coder-30BA3B | 31.3%    |
-
-## Development & Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) to learn how to contribute to the project.
-
-For detailed authentication setup, see the [authentication guide](./docs/cli/authentication.md).
+For benchmark results and performance metrics, see the original [Qwen Code repository](https://github.com/QwenLM/qwen-code).
 
 ## Troubleshooting
 
-If you encounter issues, check the [troubleshooting guide](docs/troubleshooting.md).
+If you encounter issues, see the original [Qwen Code repository](https://github.com/QwenLM/qwen-code).
+
 
 ## Acknowledgments
 
-This project is based on [Google Gemini CLI](https://github.com/google-gemini/gemini-cli). We acknowledge and appreciate the excellent work of the Gemini CLI team. Our main contribution focuses on parser-level adaptations to better support Qwen-Coder models.
-
-## License
-
-[LICENSE](./LICENSE)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=QwenLM/qwen-code&type=Date)](https://www.star-history.com/#QwenLM/qwen-code&Date)
+This project is forked from [Qwen Code](https://github.com/QwenLM/qwen-code), which was based on [Google Gemini CLI](https://github.com/google-gemini/gemini-cli). We acknowledge and appreciate the excellent work of both teams.
+We tried to keep changes to a minimum with respect to the original Qwen Code repository to be able to more easily maintain this fork.  
