@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Text, useInput } from 'ink';
 import { Colors } from '../colors.js';
 import { RadioButtonSelect } from './shared/RadioButtonSelect.js';
@@ -41,6 +41,13 @@ export function AuthDialog({
   settings,
   initialErrorMessage,
 }: AuthDialogProps): React.JSX.Element {
+  // If TINFOIL_API_KEY is already set, immediately select OpenAI auth
+  useEffect(() => {
+    if (process.env.TINFOIL_API_KEY || process.env.OPENAI_API_KEY) {
+      onSelect(AuthType.USE_OPENAI, SettingScope.User);
+    }
+  }, [onSelect]);
+
   const [errorMessage, setErrorMessage] = useState<string | null>(
     initialErrorMessage || null,
   );
@@ -74,7 +81,7 @@ export function AuthDialog({
   const handleAuthSelect = (authMethod: AuthType) => {
     const error = validateAuthMethod(authMethod);
     if (error) {
-      if (authMethod === AuthType.USE_OPENAI && !process.env.OPENAI_API_KEY) {
+      if (authMethod === AuthType.USE_OPENAI && !process.env.TINFOIL_API_KEY && !process.env.OPENAI_API_KEY) {
         setShowOpenAIKeyPrompt(true);
         setErrorMessage(null);
       } else {

@@ -83,8 +83,8 @@ export function createContentGeneratorConfig(
   const googleCloudProject = process.env.GOOGLE_CLOUD_PROJECT || undefined;
   const googleCloudLocation = process.env.GOOGLE_CLOUD_LOCATION || undefined;
 
-  // openai auth
-  const openaiApiKey = process.env.OPENAI_API_KEY;
+  // openai auth (support both TINFOIL_API_KEY and OPENAI_API_KEY)
+  const openaiApiKey = process.env.TINFOIL_API_KEY || process.env.OPENAI_API_KEY;
   const openaiBaseUrl = 'https://inference.tinfoil.sh/v1';
   const openaiModel = process.env.OPENAI_MODEL || undefined;
 
