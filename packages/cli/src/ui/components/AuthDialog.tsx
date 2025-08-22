@@ -46,7 +46,6 @@ export function AuthDialog({
   );
   const [showOpenAIKeyPrompt, setShowOpenAIKeyPrompt] = useState(false);
   const items = [
-    { label: 'Qwen OAuth', value: AuthType.QWEN_OAUTH },
     { label: 'OpenAI', value: AuthType.USE_OPENAI },
   ];
 
@@ -66,10 +65,6 @@ export function AuthDialog({
 
       if (process.env.GEMINI_API_KEY) {
         return item.value === AuthType.USE_GEMINI;
-      }
-
-      if (process.env.QWEN_OAUTH_TOKEN) {
-        return item.value === AuthType.QWEN_OAUTH;
       }
 
       return item.value === AuthType.LOGIN_WITH_GOOGLE;

@@ -25,7 +25,8 @@ import {
   ContentGenerator,
   ContentGeneratorConfig,
 } from './contentGenerator.js';
-import OpenAI from 'openai';
+import { TinfoilAI } from 'tinfoil';
+import type OpenAI from 'openai';
 import { logApiError, logApiResponse } from '../telemetry/loggers.js';
 import { ApiErrorEvent, ApiResponseEvent } from '../telemetry/types.js';
 import { Config } from '../config/config.js';
@@ -91,7 +92,7 @@ interface OpenAIResponseFormat {
 }
 
 export class OpenAIContentGenerator implements ContentGenerator {
-  protected client: OpenAI;
+  protected client: TinfoilAI;
   private model: string;
   private contentGeneratorConfig: ContentGeneratorConfig;
   private config: Config;
@@ -108,7 +109,7 @@ export class OpenAIContentGenerator implements ContentGenerator {
     contentGeneratorConfig: ContentGeneratorConfig,
     gcConfig: Config,
   ) {
-    this.model = contentGeneratorConfig.model;
+    this.model = 'qwen3-coder-480b';
     this.contentGeneratorConfig = contentGeneratorConfig;
     this.config = gcConfig;
 
@@ -134,9 +135,9 @@ export class OpenAIContentGenerator implements ContentGenerator {
           : {}),
     };
 
-    this.client = new OpenAI({
+    this.client = new TinfoilAI({
       apiKey: contentGeneratorConfig.apiKey,
-      baseURL: contentGeneratorConfig.baseUrl,
+      baseURL: "https://inference.tinfoil.sh/v1",
       timeout: contentGeneratorConfig.timeout ?? 120000,
       maxRetries: contentGeneratorConfig.maxRetries ?? 3,
       defaultHeaders,

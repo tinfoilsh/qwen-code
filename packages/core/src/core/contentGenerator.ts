@@ -85,7 +85,7 @@ export function createContentGeneratorConfig(
 
   // openai auth
   const openaiApiKey = process.env.OPENAI_API_KEY;
-  const openaiBaseUrl = process.env.OPENAI_BASE_URL || undefined;
+  const openaiBaseUrl = 'https://inference.tinfoil.sh/v1';
   const openaiModel = process.env.OPENAI_MODEL || undefined;
 
   // Use runtime model from config if available; otherwise, fall back to parameter or default
