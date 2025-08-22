@@ -77,13 +77,13 @@ export function OpenAIKeyPrompt({
       width="100%"
     >
       <Text bold color={Colors.AccentBlue}>
-        OpenAI Configuration Required
+        TinfoilAI Configuration Required
       </Text>
       <Box marginTop={1}>
         <Text>
-          Please enter your OpenAI configuration. You can get an API key from{' '}
+          Please enter your TinfoilAI configuration. You can get an API key from{' '}
           <Text color={Colors.AccentBlue}>
-            https://platform.openai.com/api-keys
+            https://tinfoil.sh
           </Text>
         </Text>
       </Box>

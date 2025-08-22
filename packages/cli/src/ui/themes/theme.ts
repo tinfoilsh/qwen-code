@@ -91,8 +91,8 @@ export const lightTheme: ColorsTheme = {
   DiffAdded: '#C6EAD8',
   DiffRemoved: '#FFCCCC',
   Comment: '#008000',
-  Gray: '#97a0b0',
-  GradientColors: ['#4796E4', '#847ACE', '#C3677F'],
+  Gray: '#606060',
+  GradientColors: ['#111827', '#6B7280'],
 };
 
 export const darkTheme: ColorsTheme = {
@@ -109,8 +109,8 @@ export const darkTheme: ColorsTheme = {
   DiffAdded: '#28350B',
   DiffRemoved: '#430000',
   Comment: '#6C7086',
-  Gray: '#6C7086',
-  GradientColors: ['#4796E4', '#847ACE', '#C3677F'],
+  Gray: '#808080',
+  GradientColors: ['#C0C0C0', '#808080'],
 };
 
 export const ansiTheme: ColorsTheme = {

@@ -22,7 +22,7 @@ const qwenDarkColors: ColorsTheme = {
   DiffRemoved: '#F26D78',
   Comment: '#646A71',
   Gray: '#3D4149',
-  GradientColors: ['#FFD700', '#da7959'],
+  GradientColors: ['#C0C0C0', '#808080'],
 };
 
 export const QwenDark: Theme = new Theme(

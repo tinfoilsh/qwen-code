@@ -44,7 +44,7 @@ export function AuthDialog({
   const [errorMessage, setErrorMessage] = useState<string | null>(
     initialErrorMessage || null,
   );
-  const [showOpenAIKeyPrompt, setShowOpenAIKeyPrompt] = useState(false);
+  const [showOpenAIKeyPrompt, setShowOpenAIKeyPrompt] = useState(true);
   const items = [
     { label: 'OpenAI', value: AuthType.USE_OPENAI },
   ];
@@ -99,8 +99,8 @@ export function AuthDialog({
   };
 
   const handleOpenAIKeyCancel = () => {
-    setShowOpenAIKeyPrompt(false);
-    setErrorMessage('OpenAI API key is required to use OpenAI authentication.');
+    // Keep showing the prompt since it's the only option
+    setErrorMessage('OpenAI API key is required to continue.');
   };
 
   useInput((_input, key) => {
