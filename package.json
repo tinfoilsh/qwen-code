@@ -1,6 +1,6 @@
 {
-  "name": "@qwen-code/qwen-code",
-  "version": "0.0.8",
+  "name": "@tinfoil-code/qwen-code",
+  "version": "0.0.2",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -10,10 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QwenLM/qwen-code.git"
-  },
-  "config": {
-    "sandboxImageUri": "ghcr.io/qwenlm/qwen-code:0.0.8"
+    "url": "git+https://github.com/tinfoilsh/qwen-code.git"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -49,7 +46,7 @@
     "clean": "node scripts/clean.js"
   },
   "bin": {
-    "qwen": "bundle/gemini.js"
+    "tinfoil-qwen": "bundle/gemini.js"
   },
   "files": [
     "bundle/",

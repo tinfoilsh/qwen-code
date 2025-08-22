@@ -1,15 +1,15 @@
 {
   "name": "@qwen-code/qwen-code",
   "version": "0.0.8",
-  "description": "Qwen Code",
+  "description": "Tinfoil Code",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QwenLM/qwen-code.git"
+    "url": "git+https://github.com/tinfoilsh/qwen-code.git"
   },
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "qwen": "dist/index.js"
+    "tinfoil-qwen": "dist/index.js"
   },
   "scripts": {
     "build": "node ../../scripts/build_package.js",
@@ -24,9 +24,6 @@
   "files": [
     "dist"
   ],
-  "config": {
-    "sandboxImageUri": "ghcr.io/qwenlm/qwen-code:0.0.8"
-  },
   "dependencies": {
     "@google/genai": "1.9.0",
     "@iarna/toml": "^2.2.5",
