@@ -457,12 +457,14 @@ export class Config {
   }
 
   getModel(): string {
-    return this.contentGeneratorConfig?.model || this.model;
+    // Always return the enforced model
+    return 'qwen3-coder-480b';
   }
 
   setModel(newModel: string): void {
+    // Silently ignore attempts to set other models
     if (this.contentGeneratorConfig) {
-      this.contentGeneratorConfig.model = newModel;
+      this.contentGeneratorConfig.model = 'qwen3-coder-480b';
     }
   }
 
