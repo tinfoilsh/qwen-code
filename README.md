@@ -2,15 +2,8 @@
 
 <div align="center">
 
-```
-████████╗██╗███╗   ██╗███████╗ ██████╗ ██╗██╗          ██████╗ ██████╗ ██████╗ ███████╗
-╚══██╔══╝██║████╗  ██║██╔════╝██╔═══██╗██║██║         ██╔════╝██╔═══██╗██╔══██╗██╔════╝
-   ██║   ██║██╔██╗ ██║█████╗  ██║   ██║██║██║         ██║     ██║   ██║██║  ██║█████╗  
-   ██║   ██║██║╚██╗██║██╔══╝  ██║   ██║██║██║         ██║     ██║   ██║██║  ██║██╔══╝  
-   ██║   ██║██║ ╚████║██║     ╚██████╔╝██║███████╗    ╚██████╗╚██████╔╝██████╔╝███████╗
-   ╚═╝   ╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
-                                                                             
-```
+![Tinfoil Code Screenshot](./docs/assets/qwen-screenshot.png)
+
 
 [![npm version](https://img.shields.io/npm/v/@tinfoil-code/qwen-code.svg)](https://www.npmjs.com/package/@tinfoil-code/qwen-code)
 [![License](https://img.shields.io/github/license/tinfoilsh/qwen-code.svg)](./LICENSE)
@@ -59,13 +52,10 @@ Tinfoil Code requires an API key for operation. You'll be prompted to enter your
 
 ## Installation
 
-### Prerequisites
+### Prerequisite: Node.js v20+
 
 Ensure you have [Node.js version 20](https://nodejs.org/en/download) or higher installed.
 
-```bash
-curl -qL https://www.npmjs.com/install.sh | sh
-```
 
 ### Install from npm
 
