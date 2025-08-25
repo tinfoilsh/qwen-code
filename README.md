@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Tinfoil Code Screenshot](./docs/assets/qwen-screenshot.png)
+![Tinfoil Code Screenshot](./docs/assets/tinfoil-screenshot.png)
 
 
 [![npm version](https://img.shields.io/npm/v/@tinfoil-code/qwen-code.svg)](https://www.npmjs.com/package/@tinfoil-code/qwen-code)
@@ -52,7 +52,7 @@ Tinfoil Code requires an API key for operation. You'll be prompted to enter your
 
 ## Installation
 
-### Prerequisite: Node.js v20+
+### Prerequisite: Node.js v20.0.0+
 
 Ensure you have [Node.js version 20](https://nodejs.org/en/download) or higher installed.
 
