@@ -339,7 +339,7 @@ export class Config {
       name: params.gitCoAuthor?.name ?? 'Qwen-Coder',
       email: params.gitCoAuthor?.email ?? 'qwen-coder@alibabacloud.com',
     };
-    this.usageStatisticsEnabled = params.usageStatisticsEnabled ?? true;
+    this.usageStatisticsEnabled = params.usageStatisticsEnabled ?? false;
 
     this.fileFiltering = {
       respectGitIgnore: params.fileFiltering?.respectGitIgnore ?? true,
