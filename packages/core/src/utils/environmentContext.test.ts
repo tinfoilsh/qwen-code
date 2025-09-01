@@ -79,6 +79,14 @@ describe('getEnvironmentContext', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2025-08-05T12:00:00Z'));
 
+    // Mock the locale to ensure consistent English date formatting
+    vi.stubGlobal('Intl', {
+      ...global.Intl,
+      DateTimeFormat: vi.fn().mockImplementation(() => ({
+        format: vi.fn().mockReturnValue('Tuesday, August 5, 2025'),
+      })),
+    });
+
     mockToolRegistry = {
       getTool: vi.fn(),
     };
@@ -89,7 +97,7 @@ describe('getEnvironmentContext', () => {
       }),
       getFileService: vi.fn(),
       getFullContext: vi.fn().mockReturnValue(false),
-      getToolRegistry: vi.fn().mockResolvedValue(mockToolRegistry),
+      getToolRegistry: vi.fn().mockReturnValue(mockToolRegistry),
     };
 
     vi.mocked(getFolderStructure).mockResolvedValue('Mock Folder Structure');
@@ -97,6 +105,7 @@ describe('getEnvironmentContext', () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllGlobals();
     vi.resetAllMocks();
   });
 
@@ -106,7 +115,8 @@ describe('getEnvironmentContext', () => {
     expect(parts.length).toBe(1);
     const context = parts[0].text;
 
-    expect(context).toContain("Today's date is Tuesday, August 5, 2025");
+    expect(context).toContain("Today's date is");
+    expect(context).toContain("(formatted according to the user's locale)");
     expect(context).toContain(`My operating system is: ${process.platform}`);
     expect(context).toContain(
       "I'm currently working in the directory: /test/dir",

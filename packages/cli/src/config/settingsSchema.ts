@@ -86,6 +86,15 @@ export const SETTINGS_SCHEMA = {
     description: 'Hide the application banner',
     showInDialog: true,
   },
+  hideFooter: {
+    type: 'boolean',
+    label: 'Hide Footer',
+    category: 'UI',
+    requiresRestart: false,
+    default: false,
+    description: 'Hide the footer from the UI',
+    showInDialog: true,
+  },
   showMemoryUsage: {
     type: 'boolean',
     label: 'Show Memory Usage',
@@ -103,7 +112,7 @@ export const SETTINGS_SCHEMA = {
     requiresRestart: true,
     default: false,
     description: 'Enable collection of usage statistics',
-    showInDialog: true,
+    showInDialog: false, // All details are shown in /privacy and dependent on auth type
   },
   autoConfigureMaxOldSpaceSize: {
     type: 'boolean',
@@ -128,10 +137,10 @@ export const SETTINGS_SCHEMA = {
     label: 'Max Session Turns',
     category: 'General',
     requiresRestart: false,
-    default: undefined as number | undefined,
+    default: -1,
     description:
-      'Maximum number of user/model/tool turns to keep in a session.',
-    showInDialog: false,
+      'Maximum number of user/model/tool turns to keep in a session. -1 means unlimited.',
+    showInDialog: true,
   },
   memoryImportFormat: {
     type: 'string',
@@ -147,9 +156,9 @@ export const SETTINGS_SCHEMA = {
     label: 'Memory Discovery Max Dirs',
     category: 'General',
     requiresRestart: false,
-    default: undefined as number | undefined,
+    default: 200,
     description: 'Maximum number of directories to search for memory.',
-    showInDialog: false,
+    showInDialog: true,
   },
   contextFileName: {
     type: 'object',
@@ -265,6 +274,17 @@ export const SETTINGS_SCHEMA = {
     requiresRestart: false,
     default: false,
     description: 'Disable automatic updates',
+    showInDialog: true,
+  },
+
+  shouldUseNodePtyShell: {
+    type: 'boolean',
+    label: 'Use node-pty for Shell Execution',
+    category: 'Shell',
+    requiresRestart: true,
+    default: false,
+    description:
+      'Use node-pty for shell command execution. Fallback to child_process still applies.',
     showInDialog: true,
   },
 
@@ -395,15 +415,7 @@ export const SETTINGS_SCHEMA = {
     description: 'Settings for summarizing tool output.',
     showInDialog: false,
   },
-  ideModeFeature: {
-    type: 'boolean',
-    label: 'IDE Mode Feature Flag',
-    category: 'Advanced',
-    requiresRestart: true,
-    default: undefined as boolean | undefined,
-    description: 'Internal feature flag for IDE mode.',
-    showInDialog: false,
-  },
+
   dnsResolutionOrder: {
     type: 'string',
     label: 'DNS Resolution Order',
@@ -511,6 +523,41 @@ export const SETTINGS_SCHEMA = {
     default: undefined as Record<string, unknown> | undefined,
     description: 'Content generator settings.',
     showInDialog: false,
+    properties: {
+      timeout: {
+        type: 'number',
+        label: 'Timeout',
+        category: 'Content Generator',
+        requiresRestart: false,
+        default: undefined as number | undefined,
+        description: 'Request timeout in milliseconds.',
+        parentKey: 'contentGenerator',
+        childKey: 'timeout',
+        showInDialog: true,
+      },
+      maxRetries: {
+        type: 'number',
+        label: 'Max Retries',
+        category: 'Content Generator',
+        requiresRestart: false,
+        default: undefined as number | undefined,
+        description: 'Maximum number of retries for failed requests.',
+        parentKey: 'contentGenerator',
+        childKey: 'maxRetries',
+        showInDialog: true,
+      },
+      disableCacheControl: {
+        type: 'boolean',
+        label: 'Disable Cache Control',
+        category: 'Content Generator',
+        requiresRestart: false,
+        default: false,
+        description: 'Disable cache control for DashScope providers.',
+        parentKey: 'contentGenerator',
+        childKey: 'disableCacheControl',
+        showInDialog: true,
+      },
+    },
   },
   enableOpenAILogging: {
     type: 'boolean',
@@ -547,6 +594,15 @@ export const SETTINGS_SCHEMA = {
     default: undefined as string | undefined,
     description: 'The API key for the Tavily API.',
     showInDialog: false,
+  },
+  skipNextSpeakerCheck: {
+    type: 'boolean',
+    label: 'Skip Next Speaker Check',
+    category: 'General',
+    requiresRestart: false,
+    default: false,
+    description: 'Skip the next speaker check.',
+    showInDialog: true,
   },
 } as const;
 

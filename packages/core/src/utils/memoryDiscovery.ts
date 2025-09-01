@@ -57,8 +57,9 @@ async function findProjectRoot(startDir: string): Promise<string | null> {
         (error as { code: string }).code === 'ENOENT';
 
       // Only log unexpected errors in non-test environments
-      // process.env.NODE_ENV === 'test' or VITEST are common test indicators
-      const isTestEnv = process.env.NODE_ENV === 'test' || process.env.VITEST;
+      // process.env['NODE_ENV'] === 'test' or VITEST are common test indicators
+      const isTestEnv =
+        process.env['NODE_ENV'] === 'test' || process.env['VITEST'];
 
       if (!isENOENT && !isTestEnv) {
         if (typeof error === 'object' && error !== null && 'code' in error) {
@@ -143,9 +144,28 @@ async function getGeminiMdFilePathsInternalForEachDir(
       // It's okay if it's not found.
     }
 
-    // FIX: Only perform the workspace search (upward and downward scans)
-    // if a valid currentWorkingDirectory is provided.
-    if (dir) {
+    // Handle the case where we're in the home directory (dir is empty string or home path)
+    const resolvedDir = dir ? path.resolve(dir) : resolvedHome;
+    const isHomeDirectory = resolvedDir === resolvedHome;
+
+    if (isHomeDirectory) {
+      // For home directory, only check for QWEN.md directly in the home directory
+      const homeContextPath = path.join(resolvedHome, geminiMdFilename);
+      try {
+        await fs.access(homeContextPath, fsSync.constants.R_OK);
+        if (homeContextPath !== globalMemoryPath) {
+          allPaths.add(homeContextPath);
+          if (debugMode)
+            logger.debug(
+              `Found readable home ${geminiMdFilename}: ${homeContextPath}`,
+            );
+        }
+      } catch {
+        // Not found, which is okay
+      }
+    } else if (dir) {
+      // FIX: Only perform the workspace search (upward and downward scans)
+      // if a valid currentWorkingDirectory is provided and it's not the home directory.
       const resolvedCwd = path.resolve(dir);
       if (debugMode)
         logger.debug(
@@ -246,7 +266,8 @@ async function readGeminiMdFiles(
           `Successfully read and processed imports: ${filePath} (Length: ${processedResult.content.length})`,
         );
     } catch (error: unknown) {
-      const isTestEnv = process.env.NODE_ENV === 'test' || process.env.VITEST;
+      const isTestEnv =
+        process.env['NODE_ENV'] === 'test' || process.env['VITEST'];
       if (!isTestEnv) {
         const message = error instanceof Error ? error.message : String(error);
         logger.warn(

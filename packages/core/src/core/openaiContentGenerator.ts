@@ -131,6 +131,7 @@ export class OpenAIContentGenerator implements ContentGenerator {
           ? {
               'X-DashScope-CacheControl': 'enable',
               'X-DashScope-UserAgent': userAgent,
+              'X-DashScope-AuthType': contentGeneratorConfig.authType,
             }
           : {}),
     };
@@ -213,6 +214,17 @@ export class OpenAIContentGenerator implements ContentGenerator {
   }
 
   /**
+   * Check if cache control should be disabled based on configuration.
+   *
+   * @returns true if cache control should be disabled, false otherwise
+   */
+  private shouldDisableCacheControl(): boolean {
+    return (
+      this.config.getContentGeneratorConfig()?.disableCacheControl === true
+    );
+  }
+
+  /**
    * Build metadata object for OpenAI API requests.
    *
    * @param userPromptId The user prompt ID to include in metadata
@@ -236,8 +248,18 @@ export class OpenAIContentGenerator implements ContentGenerator {
   private async buildCreateParams(
     request: GenerateContentParameters,
     userPromptId: string,
+    streaming: boolean = false,
   ): Promise<Parameters<typeof this.client.chat.completions.create>[0]> {
-    const messages = this.convertToOpenAIFormat(request);
+    let messages = this.convertToOpenAIFormat(request);
+
+    // Add cache control to system and last messages for DashScope providers
+    // Only add cache control to system message for non-streaming requests
+    if (this.isDashScopeProvider() && !this.shouldDisableCacheControl()) {
+      messages = this.addDashScopeCacheControl(
+        messages,
+        streaming ? 'both' : 'system',
+      );
+    }
 
     // Build sampling parameters with clear priority:
     // 1. Request-level parameters (highest priority)
@@ -260,6 +282,11 @@ export class OpenAIContentGenerator implements ContentGenerator {
       );
     }
 
+    if (streaming) {
+      createParams.stream = true;
+      createParams.stream_options = { include_usage: true };
+    }
+
     return createParams;
   }
 
@@ -268,7 +295,11 @@ export class OpenAIContentGenerator implements ContentGenerator {
     userPromptId: string,
   ): Promise<GenerateContentResponse> {
     const startTime = Date.now();
-    const createParams = await this.buildCreateParams(request, userPromptId);
+    const createParams = await this.buildCreateParams(
+      request,
+      userPromptId,
+      false,
+    );
 
     try {
       const completion = (await this.client.chat.completions.create(
@@ -359,10 +390,11 @@ export class OpenAIContentGenerator implements ContentGenerator {
     userPromptId: string,
   ): Promise<AsyncGenerator<GenerateContentResponse>> {
     const startTime = Date.now();
-    const createParams = await this.buildCreateParams(request, userPromptId);
-
-    createParams.stream = true;
-    createParams.stream_options = { include_usage: true };
+    const createParams = await this.buildCreateParams(
+      request,
+      userPromptId,
+      true,
+    );
 
     try {
       const stream = (await this.client.chat.completions.create(
@@ -518,7 +550,18 @@ export class OpenAIContentGenerator implements ContentGenerator {
     this.streamingToolCalls.clear();
 
     for await (const chunk of stream) {
-      yield this.convertStreamChunkToGeminiFormat(chunk);
+      const response = this.convertStreamChunkToGeminiFormat(chunk);
+
+      // Ignore empty responses, which would cause problems with downstream code
+      // that expects a valid response.
+      if (
+        response.candidates?.[0]?.content?.parts?.length === 0 &&
+        !response.usageMetadata
+      ) {
+        continue;
+      }
+
+      yield response;
     }
   }
 
@@ -904,7 +947,7 @@ export class OpenAIContentGenerator implements ContentGenerator {
 
             messages.push({
               role: 'assistant' as const,
-              content: textParts.join('\n') || null,
+              content: textParts.join('') || null,
               tool_calls: toolCalls,
             });
           }
@@ -914,7 +957,7 @@ export class OpenAIContentGenerator implements ContentGenerator {
               content.role === 'model'
                 ? ('assistant' as const)
                 : ('user' as const);
-            const text = textParts.join('\n');
+            const text = textParts.join('');
             if (text) {
               messages.push({ role, content: text });
             }
@@ -943,14 +986,13 @@ export class OpenAIContentGenerator implements ContentGenerator {
     const mergedMessages =
       this.mergeConsecutiveAssistantMessages(cleanedMessages);
 
-    // Add cache control to system and last messages for DashScope providers
-    return this.addCacheControlFlag(mergedMessages, 'both');
+    return mergedMessages;
   }
 
   /**
    * Add cache control flag to specified message(s) for DashScope providers
    */
-  private addCacheControlFlag(
+  private addDashScopeCacheControl(
     messages: OpenAI.Chat.ChatCompletionMessageParam[],
     target: 'system' | 'last' | 'both' = 'both',
   ): OpenAI.Chat.ChatCompletionMessageParam[] {
@@ -1352,7 +1394,9 @@ export class OpenAIContentGenerator implements ContentGenerator {
 
       // Handle text content
       if (choice.delta?.content) {
-        parts.push({ text: choice.delta.content });
+        if (typeof choice.delta.content === 'string') {
+          parts.push({ text: choice.delta.content });
+        }
       }
 
       // Handle tool calls - only accumulate during streaming, emit when complete
@@ -1372,10 +1416,36 @@ export class OpenAIContentGenerator implements ContentGenerator {
             accumulatedCall.id = toolCall.id;
           }
           if (toolCall.function?.name) {
+            // If this is a new function name, reset the arguments
+            if (accumulatedCall.name !== toolCall.function.name) {
+              accumulatedCall.arguments = '';
+            }
             accumulatedCall.name = toolCall.function.name;
           }
           if (toolCall.function?.arguments) {
-            accumulatedCall.arguments += toolCall.function.arguments;
+            // Check if we already have a complete JSON object
+            const currentArgs = accumulatedCall.arguments;
+            const newArgs = toolCall.function.arguments;
+
+            // If current arguments already form a complete JSON and new arguments start a new object,
+            // this indicates a new tool call with the same name
+            let shouldReset = false;
+            if (currentArgs && newArgs.trim().startsWith('{')) {
+              try {
+                JSON.parse(currentArgs);
+                // If we can parse current arguments as complete JSON and new args start with {,
+                // this is likely a new tool call
+                shouldReset = true;
+              } catch {
+                // Current arguments are not complete JSON, continue accumulating
+              }
+            }
+
+            if (shouldReset) {
+              accumulatedCall.arguments = newArgs;
+            } else {
+              accumulatedCall.arguments += newArgs;
+            }
           }
         }
       }
@@ -1563,7 +1633,7 @@ export class OpenAIContentGenerator implements ContentGenerator {
         }
       }
 
-      messageContent = textParts.join('');
+      messageContent = textParts.join('').trimEnd();
     }
 
     const choice: OpenAIChoice = {
