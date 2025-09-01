@@ -40,7 +40,7 @@ export const validateAuthMethod = (authMethod: string): string | null => {
   }
 
   if (authMethod === AuthType.USE_OPENAI) {
-    if (!process.env.TINFOIL_API_KEY && !process.env.OPENAI_API_KEY) {
+    if (!process.env['TINFOIL_API_KEY'] && !process.env['OPENAI_API_KEY']) {
       return 'TINFOIL_API_KEY environment variable not found. You can enter it interactively or add it to your .env file.';
     }
     return null;
@@ -56,8 +56,8 @@ export const validateAuthMethod = (authMethod: string): string | null => {
 };
 
 export const setOpenAIApiKey = (apiKey: string): void => {
-  process.env.TINFOIL_API_KEY = apiKey;
-  process.env.OPENAI_API_KEY = apiKey; // Keep for compatibility
+  process.env['TINFOIL_API_KEY'] = apiKey;
+  process.env['OPENAI_API_KEY'] = apiKey; // Keep for compatibility
 };
 
 export const setOpenAIBaseUrl = (baseUrl: string): void => {

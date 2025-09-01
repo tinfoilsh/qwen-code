@@ -18,7 +18,6 @@ export function OpenAIKeyPrompt({
   onCancel,
 }: OpenAIKeyPromptProps): React.JSX.Element {
   const [apiKey, setApiKey] = useState('');
-  const [currentField, setCurrentField] = useState<'apiKey'>('apiKey');
 
   useInput((input, key) => {
     // 过滤粘贴相关的控制序列
@@ -39,15 +38,13 @@ export function OpenAIKeyPrompt({
       .join('');
 
     if (cleanInput.length > 0) {
-      if (currentField === 'apiKey') {
-        setApiKey((prev) => prev + cleanInput);
-      }
+      setApiKey((prev) => prev + cleanInput);
       return;
     }
 
     // 检查是否是 Enter 键（通过检查输入是否包含换行符）
     if (input.includes('\n') || input.includes('\r')) {
-      if (currentField === 'apiKey' && apiKey.trim()) {
+      if (apiKey.trim()) {
         // Submit with empty base URL and model
         onSubmit(apiKey.trim(), '', '');
       }
