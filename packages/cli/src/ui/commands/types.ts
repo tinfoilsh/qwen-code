@@ -61,11 +61,11 @@ export interface CommandContext {
     toggleCorgiMode: () => void;
     toggleVimEnabled: () => Promise<boolean>;
     setGeminiMdFileCount: (count: number) => void;
+    reloadCommands: () => void;
   };
   // Session-specific data
   session: {
     stats: SessionStatsState;
-    resetSession: () => void;
     /** A transient list of shell commands the user has approved for this session. */
     sessionShellAllowlist: Set<string>;
   };

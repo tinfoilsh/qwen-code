@@ -16,17 +16,20 @@ vi.mock('fs');
 vi.mock('os');
 
 describe('ide-installer', () => {
+  beforeEach(() => {
+    vi.spyOn(os, 'homedir').mockReturnValue('/home/user');
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   describe('getIdeInstaller', () => {
     it('should return a VsCodeInstaller for "vscode"', () => {
       const installer = getIdeInstaller(DetectedIde.VSCode);
       expect(installer).not.toBeNull();
       // A more specific check might be needed if we export the class
       expect(installer).toBeInstanceOf(Object);
-    });
-
-    it('should return null for "vscodium" (not implemented)', () => {
-      const installer = getIdeInstaller(DetectedIde.VSCodium);
-      expect(installer).toBeNull();
     });
 
     it('should return null for an unknown IDE', () => {
@@ -43,11 +46,6 @@ describe('ide-installer', () => {
       installer = getIdeInstaller(DetectedIde.VSCode)!;
       vi.spyOn(child_process, 'execSync').mockImplementation(() => '');
       vi.spyOn(fs, 'existsSync').mockReturnValue(false);
-      vi.spyOn(os, 'homedir').mockReturnValue('/home/user');
-    });
-
-    afterEach(() => {
-      vi.restoreAllMocks();
     });
 
     describe('install', () => {

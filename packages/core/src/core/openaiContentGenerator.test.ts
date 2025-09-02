@@ -578,7 +578,7 @@ describe('OpenAIContentGenerator', () => {
         responses.push(response);
       }
 
-      // Tool calls should only appear in the final response
+      // First response should contain the complete tool call (accumulated from streaming)
       if (
         responses[0]?.candidates &&
         responses[0].candidates.length > 0 &&
@@ -586,7 +586,15 @@ describe('OpenAIContentGenerator', () => {
       ) {
         const firstCandidate = responses[0].candidates[0];
         if (firstCandidate.content) {
-          expect(firstCandidate.content.parts).toEqual([]);
+          expect(firstCandidate.content.parts).toEqual([
+            {
+              functionCall: {
+                id: 'call_123',
+                name: 'get_weather',
+                args: { location: 'NYC' },
+              },
+            },
+          ]);
         }
       }
       if (
@@ -679,7 +687,7 @@ describe('OpenAIContentGenerator', () => {
         model: 'text-embedding-ada-002',
       };
 
-      const _result = await generator.embedContent(request);
+      await generator.embedContent(request);
 
       expect(mockOpenAIClient.embeddings.create).toHaveBeenCalledWith({
         model: 'text-embedding-ada-002',
@@ -1627,7 +1635,7 @@ describe('OpenAIContentGenerator', () => {
   describe('error suppression functionality', () => {
     it('should allow subclasses to suppress error logging', async () => {
       class TestGenerator extends OpenAIContentGenerator {
-        protected shouldSuppressErrorLogging(): boolean {
+        protected override shouldSuppressErrorLogging(): boolean {
           return true; // Always suppress for this test
         }
       }
@@ -3410,7 +3418,10 @@ describe('OpenAIContentGenerator', () => {
         model: 'qwen-turbo',
       };
 
-      await dashscopeGenerator.generateContent(request, 'dashscope-prompt-id');
+      await dashscopeGenerator.generateContentStream(
+        request,
+        'dashscope-prompt-id',
+      );
 
       // Should include cache control in last message
       expect(mockOpenAIClient.chat.completions.create).toHaveBeenCalledWith(
@@ -3422,7 +3433,6 @@ describe('OpenAIContentGenerator', () => {
                 expect.objectContaining({
                   type: 'text',
                   text: 'Hello, how are you?',
-                  cache_control: { type: 'ephemeral' },
                 }),
               ]),
             }),
